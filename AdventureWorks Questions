@@ -1,0 +1,37 @@
+6.
+
+select SalesOrderID, UnitPrice
+from SalesOrderDetail
+group by SalesOrderID
+having count(ProductID) < 2
+
+
+7.
+
+Select d.Name, c.CompanyName
+from SalesOrderDetail a join SalesOrderHeader b on a.SalesOrderID=b.SalesOrderID join CustomerAW c on c.CustomerID=b.CustomerID join ProductAW d on d.ProductID=a.ProductID
+where d.ProductID IN (select ProductID from ProductAW where Name like "Racing Socks%")
+
+
+8.
+
+select c.ProductID,a.Description
+from ProductDescription a join ProductModelProductDescription b on a.ProductDescriptionID=b.ProductDescriptionID join ProductAW c on c.ProductModelID=b.ProductModelID
+where b.Culture="fr" and c.ProductID=736
+
+
+9.
+
+select d.CompanyName, a.SubTotal, sum(Weight * OrderQty)
+from SalesOrderHeader a join SalesOrderDetail b on a.SalesOrderID=b.SalesOrderID join ProductAW c on 
+b.ProductID=c.ProductID join CustomerAW d on a.CustomerID=d.CustomerID
+group by d.CompanyName, a.SubTotal
+order by a.SubTotal Desc
+
+
+10.
+
+select count(distinct(c.ProductID))
+from ProductCategory a join ProductAW b on a.ProductCategoryID=b.ProductCategoryID join SalesOrderDetail c on b.ProductID=c.ProductID join SalesOrderHeader d on c.SalesOrderID=d.SalesOrderID join CustomerAddress e on d.CustomerID=e.CustomerID
+where e.AddressID in (select AddressID from Address where City="London")
+
